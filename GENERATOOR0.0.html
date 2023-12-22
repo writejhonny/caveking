@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generar firma electrónica</title>
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+   
+   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+  <!-- Bootstrap icons-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="css/styles.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="d-flex flex-column h-100">
+  <main class="flex-shrink-0">
+      <!-- Navigation-->
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+          <div class="container px-5">
+              <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">CAVEKING</span></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
+                      <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                      <li class="nav-item"><a class="nav-link" href="resume.html">Resumen</a></li>
+                      <li class="nav-item"><a class="nav-link" href="projects.html">Projectos</a></li>
+                      <li class="nav-item"><a class="nav-link" href="contact.html">Contactos</a></li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+
+  <form id="form">
+    <label>Nombre:</label>
+    <input type="text" id="nombre">
+    <label>Apellido:</label>
+    <input type="text" id="apellido">
+    <label>Sexo:</label>
+    <select id="sexo">
+      <option value="Femenino">Femenino</option>
+      <option value="Masculino">Masculino</option>
+    </select>
+    <label>Cédula:</label>
+    <input type="text" id="cedula">
+    <label>Ciudad:</label>
+    <input type="text" id="ciudad">
+    <label>Rol:</label>
+    <input type="text" id="rol">
+    <label>Correo:</label>
+    <input type="email" id="correo">
+    <button type="button" onclick="generarQR()" >Generar QR</button>
+  </form>
+  <div id="container"></div>
+
+  <script>
+    function generarQR() {
+      var nombre = document.getElementById("nombre").value;
+      var apellido = document.getElementById("apellido").value;
+      var sexo = document.getElementById("sexo").value;
+      var cedula = document.getElementById("cedula").value;
+      var ciudad = document.getElementById("ciudad").value;
+      var rol = document.getElementById("rol").value;
+      var correo = document.getElementById("correo").value;
+
+      var data = {
+        nombre: nombre,
+        apellido: apellido,
+        sexo: sexo,
+        cedula: cedula,
+        ciudad: ciudad,
+        rol: rol,
+        correo: correo
+      };
+
+      actualizarHTML(data);
+
+      // Construye la URL del script de Google Apps Script con los parámetros
+  var url = "https://script.google.com/macros/s/AKfycbxoWZjwOW8ZszBB2KUHR3fuBEDV0zcnU_RnEK-hPJGNeyDALRos703eW49CzLR3OLmj/exec" +
+            "?nombre=" + encodeURIComponent(nombre) +
+            "&apellido=" + encodeURIComponent(apellido) +
+            "&sexo=" + encodeURIComponent(sexo) +
+            "&cedula=" + encodeURIComponent(cedula) +
+            "&ciudad=" + encodeURIComponent(ciudad) +
+            "&rol=" + encodeURIComponent(rol) +
+            "&correo=" + encodeURIComponent(correo); 
+
+  // Realiza la solicitud GET
+  fetch(url)
+    .then(response => response.text())
+    .then(data => {
+      // Maneja la respuesta del servidor
+      console.log(data);
+      alert("Datos almacenados correctamente");
+    })
+    .catch(error => {
+      console.error('Error al enviar datos:', error);
+      alert("Error al enviar datos");
+    });
+    }
+
+    function actualizarHTML(data) {
+      var firmado = document.createElement("div");
+      firmado.id = "firmado";
+      firmado.textContent = "Firmado electrónicamente por:";
+
+      var nombres = document.createElement("div");
+      nombres.id = "nombres";
+      
+      var nombreElement = document.createElement("div");
+      nombreElement.textContent = data.nombre;
+      nombres.appendChild(nombreElement);
+
+      var apellidoElement = document.createElement("div");
+      apellidoElement.textContent = data.apellido;
+      nombres.appendChild(apellidoElement);
+
+      // generar qrcode
+      var qrcode = document.createElement("div");
+      qrcode.id = "qrcode";
+      new QRCode(qrcode, JSON.stringify(data));
+
+      var container = document.createElement("div");
+      container.appendChild(firmado);
+      container.appendChild(qrcode);
+      container.appendChild(nombres);
+
+      document.getElementById("container").innerHTML = "";
+      document.getElementById("container").appendChild(container);
+
+      // Hacer una solicitud a la API web
+  fetch('https://script.google.com/macros/s/AKfycbxoWZjwOW8ZszBB2KUHR3fuBEDV0zcnU_RnEK-hPJGNeyDALRos703eW49CzLR3OLmj/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => response.text())
+  .then(data => {
+    // Maneja la respuesta del servidor
+    console.log(data);
+    alert("Datos almacenados correctamente");
+  })
+  .catch(error => {
+    console.error('Error al enviar datos:', error);
+    alert("Error al enviar datos");
+  });
+    }
+  </script>
+
+  <!-- Footer-->
+  <footer class="bg-white py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto"><div class="small m-0">Copyright &copy; caveking.app</div></div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
+
+
+
+<!---<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Código QR Dinámico</title>
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <link href="css/styles.css" rel="/style.css" />
+  <style>
+    /*#container {
+      display: flex;
+      align-items: center;
+    }
+    
+    #qrcode {
+      border: 5px solid;
+      margin-right: 50px;
+    }
+    
+    #firmado {
+      margin-top: 50%;
+      text-align: right; 
+      font-size: 25px;
+      margin-left: 94%;
+      width: 100%;
+      margin-bottom: -30%;
+    }
+    
+    #nombres {
+      text-align: justify;
+      margin-top: -51%;
+      font-size: 25px;
+      margin-left: 96%;
+      width: 100%;
+      font-weight: bolder;
+     
+    }
+  </style>
+</head>
+
+<body>
+
+  <form id="form">
+    <label>Nombre:</label>
+    <input type="text" id="nombre">
+    <label>Apellido:</label>
+    <input type="text" id="apellido">
+    <label>Sexo:</label>
+    <select id="sexo">
+      <option value="Femenino">Femenino</option>
+      <option value="Masculino">Masculino</option>
+    </select>
+    <label>Cédula:</label>
+    <input type="text" id="cedula">
+    <label>Ciudad:</label>
+    <input type="text" id="ciudad">
+    <label>Rol:</label>
+    <input type="text" id="rol">
+    <button type="button" onclick="generarQR()">Generar QR</button>
+  </form>
+  
+  <div id="container"></div>
+
+  <script>
+    function generarQR() {
+      var nombre = document.getElementById("nombre").value;
+      var apellido = document.getElementById("apellido").value;
+      var sexo = document.getElementById("sexo").value;
+      var cedula = document.getElementById("cedula").value;
+      var ciudad = document.getElementById("ciudad").value;
+      var rol = document.getElementById("rol").value;
+
+      var data = {
+        nombre: nombre,
+        apellido: apellido,
+        sexo: sexo,
+        cedula: cedula,
+        ciudad: ciudad,
+        rol: rol
+      };
+
+      actualizarHTML(data);
+    }
+
+    function actualizarHTML(data) {
+      var firmado = document.createElement("div");
+      firmado.id = "firmado";
+      firmado.textContent = "Firmado electrónicamente por:";
+
+      var nombres = document.createElement("div");
+      nombres.id = "nombres";
+      
+      var nombreElement = document.createElement("div");
+      nombreElement.textContent = data.nombre;
+      nombres.appendChild(nombreElement);
+
+      var apellidoElement = document.createElement("div");
+      apellidoElement.textContent = data.apellido;
+      nombres.appendChild(apellidoElement);
+
+      // generar qrcode
+      var qrcode = document.createElement("div");
+      qrcode.id = "qrcode";
+      new QRCode(qrcode, JSON.stringify(data));
+
+      var container = document.createElement("div");
+      container.appendChild(firmado);
+      container.appendChild(qrcode);
+      container.appendChild(nombres);
+
+      document.getElementById("container").innerHTML = "";
+      document.getElementById("container").appendChild(container);
+    }
+  </script>
+
+</body>
+
+</html>

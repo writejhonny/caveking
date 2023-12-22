@@ -1,0 +1,70 @@
+form { margin: 0 auto; 
+     width: 500px; 
+     background-color: #ffffff; 
+     padding: 20px; 
+     border-radius: 10px;
+    font-family: Arial, sans-serif;} 
+     label { display: block; 
+        margin-bottom: 10px; 
+         font-weight: bold; }
+
+     input, select { width: 100%; 
+         padding: 10px; 
+         border: 1px solid #ccc; 
+          border-radius: 5px;}
+
+    button { display: block; 
+         margin-top: 20px; 
+          padding: 10px; 
+           background-color: #28a745; 
+           color: white; 
+           border: none; 
+           border-radius: 5px; 
+           cursor: pointer;
+        }
+
+        #container {
+            display: flex;
+            align-items: center;
+          }
+          
+          #qrcode {
+            margin-right: 86%;
+            margin-left: 86%;
+            margin-bottom: 80%;
+
+          }
+          
+          #firmado {
+            margin-top: 50%;
+            text-align: right; 
+            font-size: 25px;
+            margin-left: 165%;
+            width: 100%;
+            margin-bottom: -30%;
+          }
+          
+          #nombres {
+            text-align: justify;
+            margin-top: -116%;
+            font-size: 25px;
+            margin-left: 165%;
+            width: 100%;
+            font-weight: bolder;
+           
+          }
+
+          p{
+            text-align: center;
+          }
+
+          h1{
+            text-align: center;
+          }
+          h2{
+            text-align: center;
+          }
+
+          canvas{
+            color: aliceblue;
+          }

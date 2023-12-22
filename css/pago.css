@@ -1,0 +1,56 @@
+/* Estilo del contenedor del card */
+.card {
+    width: 300px;
+    height: 400px;
+    border: 1px solid #4d4949;
+    margin: 20px;
+    border-radius: 8%;
+  }
+  
+  /* Estilo de la imagen del card */
+  .card-image {
+    background-image: url("https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGF5cGFsfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+  }
+  
+  /* Estilo del contenido del card */
+  .card-content {
+    text-align: center;
+    padding: 10px;
+    color: #333;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Estilo del título del card */
+  .card-content h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+  
+  /* Estilo del texto del card */
+  .card-content p {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  
+  /* Estilo del botón del card */
+  .card-button {
+    text-align: center;
+    width: 90%;
+    height: 50px;
+    border: none;
+    padding: 10px;
+  }
+  
+  /* Estilo del botón de PayPal */
+  .card-button a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
+  

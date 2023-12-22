@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generador de certificados</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Generador de certificados</h1>
+    <p>Ingrese los detalles del certificado:</p>
+    <form>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="date">Fecha:</label>
+        <input type="date" id="date" name="date"><br><br>
+        <button type="button" onclick="generateCertificate()">Generar certificado</button>
+    </form>
+    <br><br>
+    <div id="certificate"></div>
+
+    <script>
+        function generateCertificate() {
+            // Obtener los valores de entrada del usuario
+            var name = document.getElementById("name").value;
+            var date = document.getElementById("date").value;
+
+            // Crear el certificado
+            var certificate = "<h2>Certificado de " + name + "</h2>";
+            certificate += "<p>El usuario  " + name + " dispondra de este certificado para validar la autenticidad de su firma electrónica, respaldado por la empresa de servicio electrónico CAVEKING  .</p>";
+            certificate += "<p>Fecha: " + date + "</p>";
+            certificate += "<p>Fecha: " + date + "</p>";
+
+            // Mostrar el certificado
+            document.getElementById("certificate").innerHTML = certificate;
+        }
+    </script>
+</body>
+</html>
